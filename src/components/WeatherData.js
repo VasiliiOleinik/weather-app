@@ -22,8 +22,10 @@ export default function WeatherData() {
       case 'Rain': setSound(rain);
         break;
       // TODO
-      case 'Drizzle': setSound(rain);
-        break;
+      // case 'Drizzle': setSound(rain);
+      //   break;
+      // case 'Mist': setSound(rain);
+      // break;
       default: return null;
     }
     return sound;

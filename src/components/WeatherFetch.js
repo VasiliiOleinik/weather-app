@@ -6,6 +6,7 @@ export default function WeatherFetch() {
   const inputRef = useRef(null);
   const renderCount = useRef(1);
   const [weatherError, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const [city, setCity] = useState('');
 
   useEffect(() => {
@@ -23,12 +24,21 @@ export default function WeatherFetch() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        weather.show(data.name, data.main.feels_like, data.main.temp,
-          data.weather[0].description, data.weather[0].main, data.weather[0].icon);
+        switch (data.cod) {
+          case '404': setError(true); setErrorMsg(data.message);
+            break;
+          case '400': setError(true); setErrorMsg(data.message);
+            break;
+          case '200': setError(false);
+            break;
+          default: setError(false);
+        }
+        return (weather.show(data.name, data.main.feels_like, data.main.temp,
+          data.weather[0].description, data.weather[0].main, data.weather[0].icon)
+        );
       })
       .catch((err) => {
-        console.log(err);
-        setError(true);
+        console.log(`err: ${err}`);
       });
   }
 
@@ -40,7 +50,7 @@ export default function WeatherFetch() {
           <button className="btn btn-success" onClick={getWeather} type="button">Get weather</button>
         </div>
       </div>
-      {!weatherError ? <div className="alert alert-danger mt-3">Your city is not correct</div> : ''}
+      <div className={`alert alert-danger mt-3 ${weatherError ? 'd-block' : 'd-none'}`}>{errorMsg}</div>
     </div>
   );
 }
