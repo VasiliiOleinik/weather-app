@@ -1,11 +1,16 @@
 import React from 'react';
 import WeatherFetch from './components/WeatherFetch';
+import WeatherData from './components/WeatherData';
+import { WeatherProvider } from './components/WeatherContext';
 
 function App() {
   return (
-    <div className="App">
-      <WeatherFetch/>
-    </div>
+    <WeatherProvider>
+      <div className="App container">
+        <WeatherFetch />
+        <WeatherData />
+      </div>
+    </WeatherProvider>
   );
 }
 
