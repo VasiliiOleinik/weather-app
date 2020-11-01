@@ -2,9 +2,7 @@ import React, { useContext, useReducer } from 'react';
 
 const WeatherContext = React.createContext();
 
-export const useWeather = () => {
-  return useContext(WeatherContext);
-}
+export const useWeather = () => useContext(WeatherContext);
 
 const SHOW_WEATHER = 'show';
 
@@ -22,10 +20,10 @@ const reducer = (state, action) => {
     };
     default: return state;
   }
-}
+};
 
+/* eslint react/prop-types: 0 */
 export const WeatherProvider = ({ children }) => {
-
   const [state, dispatch] = useReducer(reducer, {
     visible: false,
     city: '',
@@ -38,23 +36,28 @@ export const WeatherProvider = ({ children }) => {
 
   const show = (city, feelsLike, mainTemp, description, main, iconID) => dispatch({
     type: SHOW_WEATHER,
-    feelsLike, mainTemp, description, main,
-    city,iconID
+    feelsLike,
+    mainTemp,
+    description,
+    main,
+    city,
+    iconID,
   });
 
   return (
-    <WeatherContext.Provider value={{
-      visible: state.visible,
-      city: state.city,
-      feelsLike: state.feelsLike,
-      mainTemp: state.mainTemp,
-      description: state.description,
-      main: state.main,
-      iconID: state.iconID,
-      show
-    }}>
+    <WeatherContext.Provider
+      value={{
+        visible: state.visible,
+        city: state.city,
+        feelsLike: state.feelsLike,
+        mainTemp: state.mainTemp,
+        description: state.description,
+        main: state.main,
+        iconID: state.iconID,
+        show,
+      }}
+    >
       { children}
     </WeatherContext.Provider>
-  )
-
-}
+  );
+};
